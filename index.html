@@ -543,49 +543,79 @@
     /* ── Five senses grid ── */
     .senses-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.9rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
       margin-top: 2rem;
     }
 
-    @media (max-width: 760px) {
-      .senses-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 400px) {
+    @media (max-width: 500px) {
       .senses-grid { grid-template-columns: 1fr; }
     }
 
     .sense-card {
       background: var(--white);
-      border-radius: 14px;
+      border-radius: 16px;
       box-shadow: var(--shadow);
-      padding: 1rem 0.9rem;
+      overflow: hidden;
+    }
+
+    .sense-card > img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .sense-body {
+      padding: 1rem 1.1rem 1.1rem;
+    }
+
+    .sense-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .sense-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.35rem;
+      font-size: 1.5rem;
+      flex-shrink: 0;
     }
 
     .sense-card h3 {
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 800;
-      margin-bottom: 0.5rem;
       color: var(--text);
+    }
+
+    .sense-why {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      font-style: italic;
+      margin-bottom: 0.7rem;
+      line-height: 1.55;
     }
 
     .sense-card ul {
       list-style: none;
       padding: 0;
-      font-size: 0.82rem;
-      color: var(--text-soft);
+      font-size: 0.85rem;
+      color: var(--text);
       line-height: 1.6;
     }
 
     .sense-card ul li {
-      padding: 0.2rem 0;
+      padding: 0.25rem 0;
       border-bottom: 1px solid var(--lavender);
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .sense-card ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--lavender-mid);
+      font-weight: 900;
     }
 
     .sense-card ul li:last-child { border-bottom: none; }
@@ -927,58 +957,93 @@
   <div class="senses-grid">
 
     <div class="sense-card">
-      <div class="sense-icon">👁️</div>
-      <h3>視覺 Sight</h3>
-      <ul>
-        <li>看一根蠟燭的火焰</li>
-        <li>欣賞窗外的花草或天空</li>
-        <li>翻看一張喜歡的照片</li>
-        <li>留意身邊美麗的顏色</li>
-      </ul>
+      <img src="dbt_5senses_sight.png" alt="視覺安撫 — 四種用眼睛照顧自己的方法" />
+      <div class="sense-body">
+        <div class="sense-header">
+          <span class="sense-icon">👁️</span>
+          <h3>視覺 Sight</h3>
+        </div>
+        <p class="sense-why">把目光帶到美好的事物上，能幫助大腦從焦慮的思緒中「切換頻道」，感受當下的平靜。</p>
+        <ul>
+          <li>看一根蠟燭輕輕搖曳的火焰</li>
+          <li>仰望窗外的天空和雲朵</li>
+          <li>欣賞一束鮮花或植物的顏色和形狀</li>
+          <li>翻看一張珍愛的照片，讓溫暖的回憶湧現</li>
+          <li>留意身邊令你感覺美好的顏色或光線</li>
+        </ul>
+      </div>
     </div>
 
     <div class="sense-card">
-      <div class="sense-icon">🎵</div>
-      <h3>聽覺 Sound</h3>
-      <ul>
-        <li>播放令你平靜的音樂</li>
-        <li>聆聽大自然的聲音</li>
-        <li>聽頌缽（Singing Bowl）</li>
-        <li>靜靜聆聽周圍的聲音</li>
-      </ul>
+      <img src="dbt_5senses_sound.png" alt="聽覺安撫 — 四種用耳朵照顧自己的方法" />
+      <div class="sense-body">
+        <div class="sense-header">
+          <span class="sense-icon">🎵</span>
+          <h3>聽覺 Sound</h3>
+        </div>
+        <p class="sense-why">聲音能繞過思考，直接影響神經系統。舒緩的聲音能在幾分鐘內降低心跳和壓力荷爾蒙。</p>
+        <ul>
+          <li>戴上耳機，播放令你平靜或快樂的音樂</li>
+          <li>聆聽大自然的聲音——鳥鳴、流水、風聲</li>
+          <li>敲響頌缽（Singing Bowl），專注聆聽聲音慢慢消散</li>
+          <li>在雨聲中靜靜坐著，感受那份寧靜</li>
+          <li>留意周圍平靜的背景聲音，讓心安定下來</li>
+        </ul>
+      </div>
     </div>
 
     <div class="sense-card">
-      <div class="sense-icon">🌸</div>
-      <h3>嗅覺 Smell</h3>
-      <ul>
-        <li>泡一杯茶，吸入香氣</li>
-        <li>聞一朵花或精油</li>
-        <li>打開窗戶感受雨後清新</li>
-        <li>聞喜歡的護手霜香皂</li>
-      </ul>
+      <img src="dbt_5senses_smell.png" alt="嗅覺安撫 — 四種用氣味照顧自己的方法" />
+      <div class="sense-body">
+        <div class="sense-header">
+          <span class="sense-icon">🌸</span>
+          <h3>嗅覺 Smell</h3>
+        </div>
+        <p class="sense-why">嗅覺是唯一直接連接大腦情緒中心（邊緣系統）的感官，令氣味能快速喚起平靜和安全感。</p>
+        <ul>
+          <li>泡一杯茶，雙手捧著，深深吸入熱氣和香氣</li>
+          <li>走近一朵花，輕輕聞它自然的氣味</li>
+          <li>在手腕滴幾滴精油，緩緩地呼吸</li>
+          <li>打開窗戶，感受雨後清新的空氣</li>
+          <li>聞一聞你喜歡的護手霜或香皂的氣味</li>
+        </ul>
+      </div>
     </div>
 
     <div class="sense-card">
-      <div class="sense-icon">☕</div>
-      <h3>味覺 Taste</h3>
-      <ul>
-        <li>慢慢品嚐一塊朱古力</li>
-        <li>細細喝一口溫熱的茶</li>
-        <li>感受食物的每一層味道</li>
-        <li>留意甜、酸、苦的感覺</li>
-      </ul>
+      <img src="dbt_5senses_taste.png" alt="味覺安撫 — 四種用味道照顧自己的方法" />
+      <div class="sense-body">
+        <div class="sense-header">
+          <span class="sense-icon">☕</span>
+          <h3>味覺 Taste</h3>
+        </div>
+        <p class="sense-why">專注品味食物，能把注意力帶回當下。酸或苦的強烈味道尤其能快速「中斷」情緒漩渦。</p>
+        <ul>
+          <li>細細品嚐一小口朱古力，感受它慢慢融化的過程</li>
+          <li>咬一口檸檬或酸糖，讓那股酸勁把你帶回當下</li>
+          <li>慢慢進食，專注感受每一口的味道、質感和溫度</li>
+          <li>細啜一杯花草茶，讓香氣和溫暖慢慢滲透</li>
+          <li>留意食物帶給你的感覺：甜、酸、苦、暖、涼</li>
+        </ul>
+      </div>
     </div>
 
     <div class="sense-card">
-      <div class="sense-icon">🤗</div>
-      <h3>觸覺 Touch</h3>
-      <ul>
-        <li>裹上柔軟的毛毯</li>
-        <li>泡一個溫暖的手浴</li>
-        <li>輕握一塊光滑的石頭</li>
-        <li>撫摸貓咪或毛絨玩具</li>
-      </ul>
+      <img src="dbt_5senses_touch.png" alt="觸覺安撫 — 四種用觸感照顧自己的方法" />
+      <div class="sense-body">
+        <div class="sense-header">
+          <span class="sense-icon">🤗</span>
+          <h3>觸覺 Touch</h3>
+        </div>
+        <p class="sense-why">溫柔的觸碰能刺激催產素（Oxytocin）分泌，降低皮質醇，讓身體感到被安撫和安全。</p>
+        <ul>
+          <li>裹上柔軟的毛毯，感受它的重量和溫暖包圍你</li>
+          <li>把雙手浸入溫水，感受溫暖慢慢散開</li>
+          <li>輕握一塊光滑的石頭，用拇指輕輕摩挲它的質感</li>
+          <li>輕撫貓咪或毛絨玩具，感受那份柔軟和連結</li>
+          <li>雙手交疊放在胸口，感受心跳，輕輕對自己說：沒事的</li>
+        </ul>
+      </div>
     </div>
 
   </div>
