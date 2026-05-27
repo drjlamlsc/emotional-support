@@ -55,7 +55,7 @@
     }
 
     .legend-img {
-      height: 52px;
+      height: 82px;
       display: block;
       flex: 1;
       object-fit: contain;
@@ -108,12 +108,11 @@
 
     /* Column widths */
     .col-date    { width: 10%; }
-    .col-day     { width: 8%;  }
-    .col-mood    { width: 11%; }
-    .col-anxiety { width: 11%; }
-    .col-sleep   { width: 10%; }
+    .col-mood    { width: 13%; }
+    .col-anxiety { width: 13%; }
+    .col-sleep   { width: 13%; }
     .col-sleeph  { width: 10%; }
-    .col-notes   { width: 40%; }
+    .col-notes   { width: 41%; }
 
     tbody tr:nth-child(even) { background: #faf8ff; }
     tbody tr:nth-child(odd)  { background: #ffffff; }
@@ -221,11 +220,10 @@
       <thead>
         <tr>
           <th class="col-date">日期</th>
-          <th class="col-day">星期</th>
           <th class="col-mood">情緒<br><span style="font-weight:400;font-size:9px;">（圈出1–5）</span></th>
           <th class="col-anxiety">焦慮<br><span style="font-weight:400;font-size:9px;">（圈出1–5）</span></th>
+          <th class="col-sleep">睡眠質素<br><span style="font-weight:400;font-size:9px;">（圈出1–5）</span></th>
           <th class="col-sleeph">睡眠<br><span style="font-weight:400;font-size:9px;">時數</span></th>
-          <th class="col-sleep">睡眠<br><span style="font-weight:400;font-size:9px;">質素（1–5）</span></th>
           <th class="col-notes">備注（事件 / 感受 / 用藥）</th>
         </tr>
       </thead>
@@ -242,7 +240,6 @@
   <button class="print-btn no-print" onclick="window.print()">🖨️ 列印</button>
 
 <script>
-  const days   = ['日','一','二','三','四','五','六'];
   const tbody  = document.getElementById('chart-body');
   const moodDots = [
     'dot dot-mood-1','dot dot-mood-2','dot dot-mood-3','dot dot-mood-4','dot dot-mood-5'
@@ -261,19 +258,13 @@
   }
 
   for (let d = 1; d <= 31; d++) {
-    const tr   = document.createElement('tr');
-    const dow  = (d % 7); // placeholder weekday cycle
-    const isSat = dow === 6;
-    const isSun = dow === 0;
-    const dayClass = isSat ? 'sat' : isSun ? 'sun' : '';
-
+    const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${d}</td>
-      <td class="${dayClass}">${days[dow]}</td>
       <td>${makeDots(moodDots)}</td>
       <td>${makeDots(anxDots)}</td>
-      <td></td>
       <td>${makeDots(slpDots)}</td>
+      <td></td>
       <td></td>
     `;
     tbody.appendChild(tr);
