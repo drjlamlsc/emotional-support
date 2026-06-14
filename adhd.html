@@ -145,17 +145,36 @@
     .comic-card {
       background: var(--white); border-radius: 16px;
       box-shadow: var(--shadow); overflow: hidden;
-      cursor: zoom-in; transition: box-shadow 0.2s, transform 0.1s;
+      transition: box-shadow 0.2s;
     }
-    .comic-card:hover { box-shadow: 0 6px 28px rgba(100,80,140,0.18); transform: translateY(-2px); }
-    .comic-card img { width: 100%; display: block; aspect-ratio: 1/1; object-fit: cover; }
+    .comic-card:hover { box-shadow: 0 6px 28px rgba(100,80,140,0.18); }
+    .comic-card img {
+      width: 100%; display: block; aspect-ratio: 1/1;
+      object-fit: cover; cursor: zoom-in;
+    }
 
-    .comic-takeaway {
-      padding: 0.85rem 1rem;
-      font-size: 0.88rem; color: var(--text); line-height: 1.6;
-      display: flex; gap: 0.5rem; align-items: flex-start;
+    .comic-body {
+      padding: 0.95rem 1.1rem 1.1rem;
+      font-size: 0.9rem; color: var(--text); line-height: 1.7;
     }
-    .comic-takeaway .pin { flex-shrink: 0; }
+    .comic-body .howto { margin: 0; }
+    .comic-body .howto .pin { margin-right: 0.25rem; }
+    .comic-body strong { color: var(--text); }
+
+    .comic-body details { margin-top: 0.7rem; border-top: 1px dashed var(--lavender); padding-top: 0.5rem; }
+    .comic-body summary {
+      cursor: pointer; list-style: none;
+      color: var(--lavender-mid); font-weight: 700; font-size: 0.85rem;
+      padding: 0.2rem 0; user-select: none;
+    }
+    .comic-body summary::-webkit-details-marker { display: none; }
+    .comic-body summary::before { content: '▸ '; }
+    .comic-body details[open] summary::before { content: '▾ '; }
+    .comic-body details[open] summary { color: var(--text-soft); }
+    .comic-body details p {
+      margin: 0.55rem 0 0; font-size: 0.86rem;
+      color: var(--text-soft); line-height: 1.65;
+    }
 
     /* ── Lightbox ── */
     .lightbox {
@@ -227,13 +246,27 @@
   </div>
 
   <div class="comic-grid">
-    <div class="comic-card" onclick="openLightbox('adhd_praise.png','具體讚賞')">
-      <img src="adhd_praise.png" alt="具體讚賞漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>捉緊孩子做得好的一刻，<strong>具體</strong>說出他做對了什麼，而不只是「乖」。</span></div>
+    <div class="comic-card">
+      <img src="adhd_praise.png" alt="具體讚賞漫畫" onclick="openLightbox('adhd_praise.png','具體讚賞')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>在孩子做出你想看到的行為時，立即（5 秒內）說出來，並具體描述：「多謝你一叫就放低咗 iPad」、「你頭先自己坐定定做功課，好專注!」比起空泛的「乖」，孩子才知道哪個行為值得重複。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>加分位：</strong>讚努力過程而非只讚成果（「你試咗三次都冇放棄」）。</p>
+          <p><strong>常見錯誤：</strong>別在讚賞後加「但係…」（「做得好，但點解次次都要人催?」），一句「但是」會抵消整句讚賞。目標是每天讚的次數遠多於責備（約 5 讚 1 罰）。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_reward.png','獎勵貼紙表')">
-      <img src="adhd_reward.png" alt="獎勵貼紙表漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>選 1–2 個目標行為，做到就<strong>即時</strong>貼貼紙；儲滿換小獎勵，獎勵每週更換保持新鮮。</span></div>
+    <div class="comic-card">
+      <img src="adhd_reward.png" alt="獎勵貼紙表漫畫" onclick="openLightbox('adhd_reward.png','獎勵貼紙表')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>和孩子一起選 1–2 個明確、可觀察的目標行為（「自己刷牙」而非「乖啲」）。做到就即時貼一粒貼紙，儲到約定數目換取小獎勵。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>獎勵要點：</strong>即時、頻密、孩子真正想要。年紀越小，儲的目標要越短（儲 3 粒就換，而非儲一個月）。獎勵不一定花錢：「揀今晚的故事」「多 15 分鐘公園時間」同樣有效。</p>
+          <p><strong>重要原則：</strong>貼紙只加不減。已得到的不要因之後的壞行為拿走，否則孩子會覺得「努力都冇用」。</p>
+        </details>
+      </div>
     </div>
   </div>
 </section>
@@ -251,29 +284,71 @@
   </div>
 
   <div class="comic-grid">
-    <div class="comic-card" onclick="openLightbox('adhd_instructions.png','有效的指令')">
-      <img src="adhd_instructions.png" alt="有效的指令漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>先行近、眼神接觸，<strong>一次一個</strong>指令，講「要做什麼」，再叫他覆述。</span></div>
+    <div class="comic-card">
+      <img src="adhd_instructions.png" alt="有效的指令漫畫" onclick="openLightbox('adhd_instructions.png','有效的指令')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>先走到孩子身邊、蹲下平視、叫名字取得眼神接觸（不要隔房大叫）。然後給「一個」清楚指令，用平靜陳述句而非問句（「請去拿鞋」而非「可唔可以拿鞋呀?」）。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>講「要做什麼」：</strong>把否定改成正面指令：「慢慢行」取代「唔好跑」、「細聲講」取代「唔好嘈」。</p>
+          <p><strong>確認聽明白：</strong>叫孩子覆述一次，再給 5 秒讓他開始。常見錯誤是一次過下一連串指令（執書包、刷牙、換衫…），孩子記不住，一件都做不到。一次一件。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_schedule.png','視覺時間表')">
-      <img src="adhd_schedule.png" alt="視覺時間表漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>把每天的步驟畫成<strong>圖片時間表</strong>貼在牆上，讓圖表代你發出指令。</span></div>
+    <div class="comic-card">
+      <img src="adhd_schedule.png" alt="視覺時間表漫畫" onclick="openLightbox('adhd_schedule.png','視覺時間表')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>把每天固定流程（早晨、睡前）拆成幾步，用圖片或照片做成時間表，貼在當眼處。孩子跟住圖卡逐步完成，做完一步剔一格。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>為什麼有用：</strong>圖表變成「不會發脾氣的提醒者」，把催促從你身上轉移到圖表，減少衝突，也訓練孩子自己跟流程。</p>
+          <p><strong>小貼士：</strong>和孩子一起製作、揀圖、排次序，他會更有「擁有感」；完成整張時配合即時讚賞，效果更佳。流程改變時記得更新圖卡。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_timer.png','計時器')">
-      <img src="adhd_timer.png" alt="計時器漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>轉換活動前用<strong>計時器</strong>倒數提醒（「仲有5分鐘」），讓計時器做「醜人」。</span></div>
+    <div class="comic-card">
+      <img src="adhd_timer.png" alt="計時器漫畫" onclick="openLightbox('adhd_timer.png','計時器')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>轉換活動前先語言預告再設計時器（「仲有 5 分鐘就熄電視」），中途再提示「仲有 2 分鐘」，鈴響就執行約定。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>用視覺計時器：</strong>選看得見「時間在減少」的（沙漏、視覺倒數），對時間感薄弱的孩子特別有效，他能「看見」還剩多少。</p>
+          <p><strong>讓計時器做醜人：</strong>是「計時器響了」而非「媽媽叫停」，減少孩子把不滿指向你。變成遊戲（「響之前換好衫就贏!」）能大大提升合作度。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_firstthen.png','先…然後…板')">
-      <img src="adhd_firstthen.png" alt="先然後板漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>用「<strong>先…然後…</strong>」說清次序（先做功課，然後玩），冷靜講一次就停。</span></div>
+    <div class="comic-card">
+      <img src="adhd_firstthen.png" alt="先然後板漫畫" onclick="openLightbox('adhd_firstthen.png','先…然後…板')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>用固定句式講清次序：「先做功課，然後可以玩」。可配小板，左放「要做的事」、右放「之後的獎勵」圖片。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>講一次就停：</strong>冷靜清楚講一次，然後停止重複和說教，把選擇權交回孩子：要得到「然後」，就先完成「先」。</p>
+          <p><strong>小貼士：</strong>「然後」一定要是孩子真正想要、而且完成後必定兌現的，否則句式會失效。它把「玩」變成完成任務的自然結果，而不是威脅。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_homework.png','功課分段')">
-      <img src="adhd_homework.png" alt="功課分段漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>把功課<strong>拆成小段</strong>，配計時器，中間加小休息；用清單逐項剔走。</span></div>
+    <div class="comic-card">
+      <img src="adhd_homework.png" alt="功課分段漫畫" onclick="openLightbox('adhd_homework.png','功課分段')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>把一大份功課拆成幾個 10–15 分鐘小段，每段之間安排 3–5 分鐘活動小休息（伸展、飲水、跳一跳），用計時器界定每段起訖。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>減少分心：</strong>書桌只留「目前這段」需要的東西，其他玩具、電話收起。</p>
+          <p><strong>看得見進度：</strong>把今天的功課列成清單，逐項剔走，剔的動作本身帶來成就感。<strong>陪伴技巧：</strong>你坐旁邊做自己的安靜事，不必指導，單是有人陪已能幫孩子維持專注。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_calm.png','冷靜角')">
-      <img src="adhd_calm.png" alt="冷靜角漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>設一個<strong>冷靜角</strong>（軟墊、減壓玩具），不是懲罰，是情緒爆發時休息的地方。</span></div>
+    <div class="comic-card">
+      <img src="adhd_calm.png" alt="冷靜角漫畫" onclick="openLightbox('adhd_calm.png','冷靜角')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>佈置一個舒適小角落，放軟墊、毛公仔、減壓球、繪本。孩子情緒升溫時，溫和邀請他去抖一抖、深呼吸，讓情緒降溫。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>不是懲罰：</strong>要和「罰企」清楚區分，語氣是邀請（「我哋去冷靜角抖下」）而非懲罰。</p>
+          <p><strong>平靜時先練習：</strong>在孩子心情好時先一起認識和練習，他激動時才懂得用。可放上深呼吸／五感安撫小卡，連結本網站其他工具。</p>
+        </details>
+      </div>
     </div>
   </div>
 </section>
@@ -291,13 +366,27 @@
   </div>
 
   <div class="comic-grid">
-    <div class="comic-card" onclick="openLightbox('adhd_ignore.png','計劃性忽略')">
-      <img src="adhd_ignore.png" alt="計劃性忽略漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>對博取注意的扭計行為，<strong>保持平靜、不理會</strong>；他一冷靜下來，立即給予關注和讚賞。</span></div>
+    <div class="comic-card">
+      <img src="adhd_ignore.png" alt="計劃性忽略漫畫" onclick="openLightbox('adhd_ignore.png','計劃性忽略')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>對「博取注意」而無害的行為（扭計、發牢騷、哭鬧討東西），刻意保持平靜、不作反應、不眼神接觸、不說教。孩子一停止、表現平靜，立即轉身給予關注和讚賞。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>適用範圍：</strong>只用於「為引起注意」且不危險的行為；涉及傷害自己、他人或破壞則不適用。</p>
+          <p><strong>要有心理準備：</strong>被忽略時孩子起初往往「鬧得更兇」（消退前的反彈），撐過並保持一致，行為才會減少；中途讓步只會教他「鬧大啲就有用」。一忽略壞行為，就要一關注好行為。</p>
+        </details>
+      </div>
     </div>
-    <div class="comic-card" onclick="openLightbox('adhd_timeout.png','暫停冷靜')">
-      <img src="adhd_timeout.png" alt="暫停冷靜漫畫" />
-      <div class="comic-takeaway"><span class="pin">📌</span><span>越過底線（如打人）才用「暫停」：平靜堅定，<strong>每歲一分鐘</strong>，結束後不翻舊賬。</span></div>
+    <div class="comic-card">
+      <img src="adhd_timeout.png" alt="暫停冷靜漫畫" onclick="openLightbox('adhd_timeout.png','暫停冷靜')" />
+      <div class="comic-body">
+        <p class="howto"><span class="pin">📌</span><strong>怎樣做：</strong>只在越過明確底線（打人、危險行為）時使用。平靜堅定說明後果（「打人就要暫停」），帶孩子到一個安靜、沉悶、安全的位置坐下。</p>
+        <details>
+          <summary>更多技巧</summary>
+          <p><strong>時間長度：</strong>一般以「每歲一分鐘」為參考（5 歲約 5 分鐘），期間不交談、不說教、不爭辯。</p>
+          <p><strong>結束之後：</strong>時間到、平靜了就讓他重新開始，不翻舊賬。<strong>最重要：</strong>你的語氣要低而穩，大叫會把「暫停」變成權力鬥爭，反而強化問題行為。少用、只用於底線行為才保持效力。</p>
+        </details>
+      </div>
     </div>
   </div>
 </section>
