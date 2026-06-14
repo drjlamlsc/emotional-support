@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>抑鬱自助：一次過一日就好</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lavender:     #e8e2f5;
+      --lavender-mid: #c9bbea;
+      --sage:         #d9ead9;
+      --cream:        #fdf8f0;
+      --peach:        #fce8d8;
+      --text:         #4a3f5c;
+      --text-soft:    #6e6080;
+      --white:        #ffffff;
+      --radius:       18px;
+      --shadow:       0 4px 20px rgba(100, 80, 140, 0.10);
+
+      /* time-of-day tints */
+      --dawn:    #fbe8da;
+      --dawn2:   #f7e2ec;
+      --day:     #dcebf7;
+      --day2:    #e4f1e4;
+      --dusk:    #fbe6cf;
+      --dusk2:   #f3e0ec;
+      --night:   #dcd8ef;
+      --night2:  #cdd6ea;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Helvetica Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background-color: var(--cream);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--lavender-mid);
+      padding: 0.75rem 1.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .site-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-right: auto; white-space: nowrap; }
+    .nav-links { display: flex; gap: 0.4rem; }
+    nav a {
+      text-decoration: none; color: var(--text-soft); font-size: 0.88rem;
+      padding: 0.35rem 0.85rem; border-radius: 20px;
+      transition: background 0.2s, color 0.2s; white-space: nowrap;
+    }
+    nav a:hover { background: var(--lavender); color: var(--text); }
+    nav a.home { background: var(--sage); color: var(--text); }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 0.25rem; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+    @media (max-width: 680px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--lavender-mid);
+        padding: 0.75rem 1.5rem; flex-direction: column; gap: 0.3rem;
+      }
+      .nav-links.open { display: flex; }
+      nav { position: relative; }
+    }
+
+    /* ── Hero (dawn to night gradient) ── */
+    .hero {
+      background: linear-gradient(135deg, var(--dawn) 0%, var(--day) 35%, var(--dusk) 70%, var(--night) 100%);
+      text-align: center; padding: 3.8rem 1.5rem 3rem;
+    }
+    .hero h1 { font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; color: var(--text); margin-bottom: 1.1rem; }
+    .hero .sun-arc { font-size: 1.7rem; letter-spacing: 0.5rem; margin-bottom: 1.2rem; }
+    .hero p { font-size: clamp(0.92rem, 2.5vw, 1.08rem); color: var(--text-soft); max-width: 620px; margin: 0 auto 0.5rem; }
+    .hero-key {
+      display: inline-block; background: rgba(255,255,255,0.72);
+      border-radius: 16px; padding: 1.2rem 1.5rem; margin-top: 1.8rem;
+      font-size: 1rem; color: var(--text); max-width: 560px; line-height: 1.85;
+    }
+    .hero-key strong { color: var(--text); }
+
+    /* ── Time-of-day sections ── */
+    .day-section { padding: 3rem 1.5rem; }
+    .day-inner {
+      max-width: 940px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2.2rem; align-items: center;
+    }
+    .day-section.reverse .day-inner { direction: rtl; }
+    .day-section.reverse .day-inner > * { direction: ltr; }
+
+    @media (max-width: 720px) {
+      .day-inner { grid-template-columns: 1fr; gap: 1.4rem; }
+      .day-section.reverse .day-inner { direction: ltr; }
+    }
+
+    .day-bg-morning { background: linear-gradient(135deg, var(--dawn) 0%, var(--dawn2) 100%); }
+    .day-bg-day     { background: linear-gradient(135deg, var(--day) 0%, var(--day2) 100%); }
+    .day-bg-evening { background: linear-gradient(135deg, var(--dusk) 0%, var(--dusk2) 100%); }
+    .day-bg-night   { background: linear-gradient(135deg, var(--night) 0%, var(--night2) 100%); }
+
+    .day-img {
+      width: 100%; border-radius: var(--radius); box-shadow: var(--shadow);
+      display: block; cursor: zoom-in; transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .day-img:hover { box-shadow: 0 8px 30px rgba(100,80,140,0.2); transform: translateY(-2px); }
+
+    .day-text .label {
+      display: inline-block; font-size: 0.82rem; font-weight: 700;
+      color: var(--white); background: var(--lavender-mid);
+      border-radius: 20px; padding: 0.25rem 0.9rem; margin-bottom: 0.7rem;
+    }
+    .day-bg-morning .label { background: #e3a878; }
+    .day-bg-day     .label { background: #7fb0d8; }
+    .day-bg-evening .label { background: #d99a6c; }
+    .day-bg-night   .label { background: #8f88c4; }
+
+    .day-text h2 { font-size: clamp(1.3rem, 4vw, 1.7rem); margin-bottom: 0.5rem; }
+    .day-text .context {
+      font-size: 0.92rem; color: var(--text-soft); font-style: italic;
+      margin-bottom: 0.9rem; line-height: 1.7;
+    }
+    .day-text .advice {
+      background: rgba(255,255,255,0.6); border-radius: 14px;
+      padding: 0.9rem 1.1rem; font-size: 0.95rem; line-height: 1.8;
+    }
+    .day-text .advice strong { color: var(--text); }
+
+    /* ── Cross-links ── */
+    .more-section { max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem 1rem; }
+    .more-section h2 { text-align: center; font-size: clamp(1.3rem, 4vw, 1.6rem); margin-bottom: 0.4rem; }
+    .more-section .lead { text-align: center; color: var(--text-soft); font-size: 0.95rem; margin-bottom: 1.6rem; }
+    .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .link-card {
+      background: var(--white); border-radius: 14px; box-shadow: var(--shadow);
+      padding: 1.1rem 1.2rem; text-decoration: none; color: var(--text);
+      transition: box-shadow 0.2s, transform 0.1s; display: block;
+    }
+    .link-card:hover { box-shadow: 0 6px 28px rgba(100,80,140,0.18); transform: translateY(-2px); }
+    .link-card .ic { font-size: 1.5rem; }
+    .link-card h4 { font-size: 0.98rem; margin: 0.3rem 0 0.2rem; }
+    .link-card p { font-size: 0.83rem; color: var(--text-soft); margin: 0; line-height: 1.5; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--lavender); text-align: center;
+      padding: 2.5rem 1.5rem; font-size: 0.88rem; color: var(--text-soft);
+      line-height: 1.85; margin-top: 2rem;
+    }
+    footer strong { display: block; font-size: 0.95rem; color: var(--text); margin-bottom: 0.4rem; }
+    .divider { margin: 1rem auto; width: 40px; height: 2px; background: var(--lavender-mid); border-radius: 2px; }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82);
+      z-index: 999; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 92vh; border-radius: 12px; }
+    .lightbox-close { position: fixed; top: 1rem; right: 1.2rem; font-size: 2rem; color: white; cursor: pointer; background: none; border: none; line-height: 1; }
+
+    /* ── Back to top ── */
+    .back-to-top {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--lavender-mid); color: white; border: none;
+      border-radius: 50%; width: 44px; height: 44px; font-size: 1.2rem;
+      cursor: pointer; box-shadow: 0 4px 14px rgba(100,80,140,0.28);
+      display: none; align-items: center; justify-content: center; z-index: 90;
+    }
+    .back-to-top.visible { display: flex; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <span class="site-title">🌤️ 抑鬱自助</span>
+  <button class="nav-toggle" id="nav-toggle" aria-label="選單">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a class="home" href="index.html">🌿 返回主頁</a>
+    <a href="#morning">🌅 早上</a>
+    <a href="#day">☀️ 日間</a>
+    <a href="#evening">🌇 傍晚</a>
+    <a href="#night">🌙 夜晚</a>
+    <a href="#more">🔗 工具</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="sun-arc">🌅 ☀️ 🌇 🌙</div>
+  <h1>一次過一日就好</h1>
+  <p>抑鬱的時候，「康復」聽起來太遙遠、太龐大。所以，不要想得那麼遠。</p>
+  <div class="hero-key">
+    💛 你不需要一次過解決所有事情，只需要好好地度過今天。<br>
+    今天能做到<strong>一件小事</strong>，就已經足夠。<br>
+    明天的事，明天再說。
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     Morning
+     ════════════════════════════════ -->
+<div class="day-section day-bg-morning" id="morning">
+  <div class="day-inner">
+    <img class="day-img" src="dep_morning.png" alt="早上的四個小行動：坐起來雙腳著地、拉開窗簾、喝一杯水、換衣服鋪好被子"
+         onclick="openLightbox('dep_morning.png','早上')" />
+    <div class="day-text">
+      <span class="label">🌅 早上</span>
+      <h2>最難的時刻</h2>
+      <p class="context">起床的那一刻往往最沉重，全身彷彿有千斤重。這是抑鬱的特徵，不是你懶惰。</p>
+      <div class="advice">
+        <strong>給你的話：</strong>不要想著「要完成一整天的事」。現在，只需要做<strong>一件</strong>小事，起個頭就好。如果連起床也很難，就先別想「起床」，只想「坐起來，雙腳著地」。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     Daytime
+     ════════════════════════════════ -->
+<div class="day-section day-bg-day reverse" id="day">
+  <div class="day-inner">
+    <img class="day-img" src="dep_day.png" alt="日間的四個小行動：出門感受空氣、附近散步、拍一張照片、做一件五分鐘小任務"
+         onclick="openLightbox('dep_day.png','日間')" />
+    <div class="day-text">
+      <span class="label">☀️ 日間</span>
+      <h2>動起來一點點</h2>
+      <p class="context">抑鬱會叫你「等有心情才做」。但事實剛好相反。</p>
+      <div class="advice">
+        <strong>給你的話：</strong>動力，是在<strong>行動之後</strong>才來的，不是之前。所以不用等。先踏出很小的一步，心情往往會慢慢跟上來。做完之後，記得跟自己說一聲：「我做到了。」
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     Evening
+     ════════════════════════════════ -->
+<div class="day-section day-bg-evening" id="evening">
+  <div class="day-inner">
+    <img class="day-img" src="dep_evening.png" alt="傍晚的四個小行動：傳訊息給一個人、傳訊息給自己寫下心情、聽喜歡的歌、沖杯暖飲慢慢喝"
+         onclick="openLightbox('dep_evening.png','傍晚')" />
+    <div class="day-text">
+      <span class="label">🌇 傍晚</span>
+      <h2>連結與小確幸</h2>
+      <p class="context">抑鬱想你把自己收起來。每一點點的連結，都是溫柔的反抗。</p>
+      <div class="advice">
+        <strong>給你的話：</strong>你不需要很用力，一個微小的連結、一件細小的好，已經有意義。如果暫時不想聯絡任何人，可以<strong>傳訊息給自己</strong>，在 WhatsApp 開一個只有自己的對話，把心情寫下來，當作一本隨身的心情筆記。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     Night
+     ════════════════════════════════ -->
+<div class="day-section day-bg-night reverse" id="night">
+  <div class="day-inner">
+    <img class="day-img" src="dep_night.png" alt="夜晚的四個小行動：寫下今天還算OK的三件事、把煩惱暫存起來、對自己說溫柔的話、撐過了今天已經足夠"
+         onclick="openLightbox('dep_night.png','夜晚')" />
+    <div class="day-text">
+      <span class="label">🌙 夜晚</span>
+      <h2>放下今天</h2>
+      <p class="context">無論今天怎樣度過，你都撐到天黑了。這本身就值得肯定。</p>
+      <div class="advice">
+        <strong>給你的話：</strong>抑鬱的腦袋只記得做不到的事。睡前，刻意提醒自己看見那些微小的好。提醒自己：<strong>撐過了今天，就已經足夠。</strong>明天的事，明天再說。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     Cross-links
+     ════════════════════════════════ -->
+<section class="more-section" id="more">
+  <h2>🔗 配合使用的工具</h2>
+  <p class="lead">這些每天的小步，可以和網站上的其他工具一起使用。</p>
+  <div class="links-grid">
+    <a class="link-card" href="moodchart.html">
+      <span class="ic">📊</span>
+      <h4>情緒記錄表</h4>
+      <p>每天記下情緒和小行動，看見自己慢慢的變化。</p>
+    </a>
+    <a class="link-card" href="index.html#breathing">
+      <span class="ic">🌬️</span>
+      <h4>深呼吸練習</h4>
+      <p>當焦慮和情緒一起來襲時，先安撫身體。</p>
+    </a>
+    <a class="link-card" href="index.html#fivesenses">
+      <span class="ic">🌸</span>
+      <h4>五感安撫</h4>
+      <p>用五感把自己帶回當下，溫柔地照顧自己。</p>
+    </a>
+    <a class="link-card" href="crisis.html">
+      <span class="ic">🤍</span>
+      <h4>求助與守護</h4>
+      <p>當情緒非常痛苦、有傷害自己的念頭時，這裡有即時的支援。</p>
+    </a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <strong>💛 請記住</strong>
+  抑鬱是可以好轉的。這些自助方法是輔助，並不能取代專業的評估與治療。<br>
+  如果情緒持續低落、影響日常生活，請與你的醫生或治療師傾談；按時服藥也很重要。
+  <div class="divider"></div>
+  慢慢來，今天做到一件小事，已經很好。你並不孤單。🌱
+</footer>
+
+<!-- Back to top -->
+<button class="back-to-top" id="back-to-top" aria-label="回到頂部"
+        onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks  = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const backBtn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => backBtn.classList.toggle('visible', window.scrollY > 400));
+
+  function openLightbox(src, alt) {
+    const img = document.getElementById('lightbox-img');
+    img.src = src; img.alt = alt;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
